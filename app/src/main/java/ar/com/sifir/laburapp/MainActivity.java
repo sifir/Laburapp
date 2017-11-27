@@ -11,6 +11,12 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest (Request.Method.GET,
-                getQuery ("https://laburapp.herokuapp.com/users"), obj,
+                "https://laburapp.herokuapp.com/users",
                 //1er callback - respuesta
                 new Response.Listener<String>() {
                     @Override

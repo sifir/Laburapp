@@ -15,23 +15,28 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity"
-            android:label="MenuActivity"></activity>
-        <activity android:name=".SignupActivity"
-            android:label="SignupActivity">a</activity>
-        <activity android:name=".FingerActivity"
-            android:label="FingerActivity"></activity>
-        <activity android:name=".NFCActivity"
-            android:label="NFCActivity"></activity>
+        <activity
+            android:name=".MenuActivity"
+            android:label="MenuActivity" />
+        <activity
+            android:name=".SignupActivity"
+            android:label="SignupActivity" />
+        <activity
+            android:name=".FingerActivity"
+            android:label="FingerActivity" />
+        <activity
+            android:name=".NFCActivity"
+            android:label="NFCActivity" >
 
-        <intent-filter>
-            <action android:name="android.nfc.action.TAG_DISCOVERED"/>
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.TAG_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.multidots.fingerprintauth.AuthErrorCodes;
 import com.multidots.fingerprintauth.FingerPrintAuthCallback;
 import com.multidots.fingerprintauth.FingerPrintAuthHelper;
 
