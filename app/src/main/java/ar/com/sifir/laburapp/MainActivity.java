@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -22,7 +24,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ar.com.sifir.laburapp.Entities.User;
+import ar.com.sifir.laburapp.entities.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     EditText name;
     EditText pass;
     EditText passw;
-    Number id;
+    ProgressBar progressBar;
     Gson gson = new Gson();
 
     @Override
@@ -38,25 +40,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        progressBar = (ProgressBar) findViewById(R.id.progress_main);
         //cargo datos si hay guardados
         DBhelper helper = new DBhelper(this, "Login", null, 1);
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor c = db.rawQuery("Select * from Login", null);
-        String[] nombre = new String[c.getCount()];
-        String[] pass = new String[c.getCount()];
         //si hay algo guardado, lo traigo
         if (c.moveToFirst() != false){
             name = (EditText) findViewById(R.id.user);
             passw = (EditText) findViewById(R.id.pass);
+            checkbox = (CheckBox) findViewById(R.id.remember);
+            checkbox.setChecked(true);
 
-            name.setText(c.getString(0));
-            passw.setText(c.getString(1));
+            name.setText(c.getString(c.getColumnIndex("email")));
+            passw.setText(c.getString(c.getColumnIndex("password")));
         }
+        db.close();
     }
 
     //login
     public void login (View v) {
 
+        progressBar.setVisibility(View.VISIBLE);
         //agarro los datos
         name = (EditText) findViewById(R.id.user);
         pass = (EditText) findViewById(R.id.pass);
@@ -64,45 +69,42 @@ public class MainActivity extends AppCompatActivity {
         //query online
         JSONObject obj = new JSONObject();
         try {
-            obj.put("email", name.toString());
-            obj.put("password", pass.toString());
+            obj.put("identifier", name.getText().toString());
+            obj.put("password", pass.getText().toString());
         } catch (JSONException e){
             e.printStackTrace();
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest (Request.Method.GET,
-                "https://laburapp.herokuapp.com/users",
+        JsonObjectRequest request = new JsonObjectRequest (Request.Method.POST,
+                //url de login
+                "https://laburapp.herokuapp.com/auth/local",
+                obj,
                 //1er callback - respuesta
-                new Response.Listener<String>() {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response){
-                        User user = gson.fromJson(response, User.class);
-                        id = user.getId();
+                    public void onResponse(JSONObject response){
+                        User user = gson.fromJson(response.toString(), User.class);
+                        user.setPassword(pass.getText().toString());
+                        if (checkbox.isChecked())
+                            user.save(getApplicationContext());
+                        moveToMenu();
+                        progressBar.setVisibility(View.GONE);
                     }
                 },
                 //2do callback - error
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Error de volley: ", error.getLocalizedMessage());
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
 
-        //guardo el login offline
-        checkbox = (CheckBox) findViewById(R.id.remember);
-        if (checkbox.isChecked()){
-            DBhelper helper = new DBhelper(this, "Login", null, 1);
-            SQLiteDatabase db = helper.getWritableDatabase();
-            ContentValues registro = new ContentValues();
-            registro.put("nombre", name.toString() );
-            registro.put("pass", pass.toString());
-            registro.put("id", id.toString());
-            db.insert("Login", null, registro);
-            db.close();
-        }
-
+        queue.add(request);
         //abro menu
+    }
+
+    private void moveToMenu () {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }

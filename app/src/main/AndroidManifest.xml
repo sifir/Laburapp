@@ -29,7 +29,19 @@
             android:label="FingerActivity" />
         <activity
             android:name=".NFCActivity"
-            android:label="NFCActivity" >
+            android:label="NFCActivity" />
+        <activity
+            android:name=".AdminMenuActivity"
+            android:label="AdminMenuActivity"/>
+        <activity
+            android:name=".NewNodeActivity"
+            android:label="NewNodeActivity" />
+        <activity
+            android:name=".AdminNodeListActivity"
+            android:label="AdminNodeListActivy"/>
+        <activity
+            android:name=".NFCNewNodeActivity"
+            android:label="NFCNewNodeActivity">
 
             <intent-filter>
                 <action android:name="android.nfc.action.TAG_DISCOVERED"/>

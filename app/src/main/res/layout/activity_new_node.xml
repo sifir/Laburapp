@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/progress_newnode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
     <EditText
         android:id="@+id/nodeName"
         android:layout_width="match_parent"
@@ -33,28 +39,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <EditText
-        android:id="@+id/entrada"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="17dp"
-        android:ems="10"
-        android:inputType="number" />
-
-    <EditText
-        android:id="@+id/salida"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/entrada"
-        android:layout_alignRight="@+id/entrada"
-        android:layout_below="@+id/textView4"
-        android:layout_marginTop="18dp"
-        android:ems="10"
-        android:inputType="number" />
-
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -64,4 +48,26 @@
         android:layout_marginTop="44dp"
         android:onClick="aceptarBtn"
         android:text="Aceptar" />
+
+    <EditText
+        android:id="@+id/entrada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:ems="10"
+        android:inputType="time"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/salida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/entrada"
+        android:layout_alignRight="@+id/entrada"
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="33dp"
+        android:ems="10"
+        android:inputType="time" />
 </RelativeLayout>

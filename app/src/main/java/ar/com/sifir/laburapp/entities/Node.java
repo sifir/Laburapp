@@ -1,4 +1,4 @@
-package ar.com.sifir.laburapp.Entities;
+package ar.com.sifir.laburapp.entities;
 
 /**
  * Created by Sifir on 27/11/2017.

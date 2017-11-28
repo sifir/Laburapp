@@ -1,8 +1,8 @@
 package ar.com.sifir.laburapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import be.appfoundry.nfclibrary.activities.NfcActivity;
@@ -11,8 +11,7 @@ import be.appfoundry.nfclibrary.activities.NfcActivity;
  * Created by Sifir on 14/09/2017.
  */
 
-public class NFCActivity extends NfcActivity {
-
+public class NFCNewNodeActivity extends NfcActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +40,10 @@ public class NFCActivity extends NfcActivity {
         if (arr != null) {
             if(isValidId(arr)){
                 Toast.makeText(this,"Lectura correcta de NFC",Toast.LENGTH_LONG).show();
-                Intent miIntent = new Intent(this, MainActivity.class);
-                miIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(miIntent);
+                Intent i = new Intent();
+                i.putExtra("result", resultHexa);
+                setResult(Activity.RESULT_OK, i);
+                finish();
             } else {
                 Toast.makeText(this,"Error, chip NFC erroneo",Toast.LENGTH_LONG).show();
             }

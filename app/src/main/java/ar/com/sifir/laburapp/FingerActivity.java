@@ -24,11 +24,6 @@ public class FingerActivity extends Activity implements FingerPrintAuthCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finger);
 
-        //INTENTS
-        Intent intent = getIntent();
-        Bundle miBundle = intent.getExtras();
-        isIngressValid = miBundle.getBoolean("isIngressValid");
-
         //USAR FINGERPRINT
         mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(this, this);
     }
@@ -62,18 +57,10 @@ public class FingerActivity extends Activity implements FingerPrintAuthCallback 
 
     @Override
     public void onAuthSuccess(FingerprintManager.CryptoObject cryptoObject) {
-        if (isIngressValid == true) {
-            Toast.makeText(this, "Exito!", Toast.LENGTH_SHORT).show();
-            Intent miIntent = new Intent(this, NFCActivity.class);
-            miIntent.putExtra("isIngressValid", true);
-            startActivity(miIntent);
-        } else {
-            Toast.makeText(this, "Exito!", Toast.LENGTH_SHORT).show();
-            Intent miIntent = new Intent(this, NFCActivity.class);
-            miIntent.putExtra("isIngressValid", false);
-            startActivity(miIntent);
-        }
-
+         Toast.makeText(this, "Exito!", Toast.LENGTH_SHORT).show();
+         Intent miIntent = new Intent(this, NFCActivity.class);
+         miIntent.putExtra("isIngressValid", true);
+         startActivity(miIntent);
     }
 
     @Override
