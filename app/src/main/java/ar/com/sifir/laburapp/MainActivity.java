@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        checkbox = (CheckBox) findViewById(R.id.remember);
         progressBar = (ProgressBar) findViewById(R.id.progress_main);
         //cargo datos si hay guardados
         DBhelper helper = new DBhelper(this, "Login", null, 1);
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         if (c.moveToFirst() != false){
             name = (EditText) findViewById(R.id.user);
             passw = (EditText) findViewById(R.id.pass);
-            checkbox = (CheckBox) findViewById(R.id.remember);
             checkbox.setChecked(true);
 
             name.setText(c.getString(c.getColumnIndex("email")));

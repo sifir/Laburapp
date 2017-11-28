@@ -7,7 +7,8 @@
         android:id="@+id/progress_newnode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:gravity = "center_vertical|center_horizontal"/>
 
     <EditText
         android:id="@+id/nodeName"
@@ -25,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hora de entrada"
-        android:layout_marginTop="71dp"
+        android:layout_marginTop="28dp"
         android:layout_below="@+id/nodeName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -35,7 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hora de salida"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/entrada"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -43,17 +45,16 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/salida"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
         android:onClick="aceptarBtn"
-        android:text="Aceptar" />
+        android:text="Aceptar"
+        android:layout_marginBottom="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/entrada"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
         android:ems="10"
         android:inputType="time"
         android:layout_below="@+id/textView2"
@@ -64,10 +65,29 @@
         android:id="@+id/salida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/entrada"
-        android:layout_alignRight="@+id/entrada"
-        android:layout_below="@+id/textView4"
-        android:layout_marginTop="33dp"
         android:ems="10"
-        android:inputType="time" />
+        android:inputType="time"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Switch
+        android:id="@+id/switchGPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="46dp"
+        android:text="Con sistema de GPS"
+        android:layout_below="@+id/salida"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sin horarios fijos"
+        android:layout_below="@+id/switchGPS"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>

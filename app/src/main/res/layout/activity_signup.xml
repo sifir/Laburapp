@@ -18,7 +18,8 @@
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="Nombre"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:gravity = "center_vertical|center_horizontal"/>
 
     <EditText
         android:id="@+id/apellidoText"
@@ -40,7 +41,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
         android:onClick="alta"
-        android:text="Button" />
+        android:text="Crear nuevo usuario" />
 
     <EditText
         android:id="@+id/emailText"

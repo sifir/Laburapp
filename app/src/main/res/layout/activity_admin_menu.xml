@@ -18,20 +18,31 @@
         android:id="@+id/newNodeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="85dp"
         android:onClick="newNode"
-        android:text="Crear nuevo nodo" />
+        android:text="Crear nuevo nodo"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/adminNodeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/newNodeBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="25dp"
         android:onClick="adminNode"
-        android:text="Administrar nodos" />
+        android:text="Administrar nodos"
+        android:layout_below="@+id/newNodeBtn"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Administrador"
+        android:textSize="24sp"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/imageView"
+        android:layout_alignRight="@+id/newNodeBtn"
+        android:layout_alignEnd="@+id/newNodeBtn" />
 
 </RelativeLayout>
