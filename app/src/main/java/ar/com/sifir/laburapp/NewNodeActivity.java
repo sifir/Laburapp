@@ -1,11 +1,17 @@
 package ar.com.sifir.laburapp;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,19 +25,22 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ar.com.sifir.laburapp.entities.User;
+import java.util.Calendar;
 
-import static ar.com.sifir.laburapp.R.id.pass;
-import static ar.com.sifir.laburapp.R.id.user;
+import ar.com.sifir.laburapp.entities.User;
 
 /**
  * Created by Sifir on 27/11/2017.
  */
 
 public class NewNodeActivity extends Activity {
+    TextView mTimeTextView1;
+    TextView mTimeTextView2;
+    Button mPickTimeButton1;
+    Button mPickTimeButton2;
+    Context mContext = this;
+
     EditText nombre;
-    EditText entrada;
-    EditText salida;
     ProgressBar progressBar;
     User user;
 
@@ -39,7 +48,44 @@ public class NewNodeActivity extends Activity {
     protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_node);
-        progressBar = (ProgressBar) findViewById(R.id.progress_newnode);
+        //progressBar = (ProgressBar) findViewById(R.id.progress_newnode);
+
+        mTimeTextView1 = findViewById(R.id.timeTextView1);
+        mTimeTextView2 = findViewById(R.id.timeTextView2);
+
+        Calendar calendar = Calendar.getInstance();
+        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int minute = calendar.get(Calendar.MINUTE);
+
+        mPickTimeButton1 = findViewById(R.id.pickTimeButton1);
+        mPickTimeButton2 = findViewById(R.id.pickTimeButton2);
+
+        mPickTimeButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                        mTimeTextView1.setText(i + ":" + i1);
+                    }
+                },hour, minute, android.text.format.DateFormat.is24HourFormat(mContext));
+                timePickerDialog.show();
+            }
+        });
+
+        mPickTimeButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                        mTimeTextView2.setText(i + ":" + i1);
+                    }
+                },hour, minute, android.text.format.DateFormat.is24HourFormat(mContext));
+                timePickerDialog.show();
+            }
+        });
+
         user = new User();
         user.load(this);
     }
@@ -55,26 +101,26 @@ public class NewNodeActivity extends Activity {
         if (requestCode == 1) {
             //si devolvio ok
             if(resultCode == Activity.RESULT_OK){
-                progressBar.setVisibility(View.VISIBLE);
-                nombre = (EditText) findViewById(R.id.nodeName);
-                entrada = (EditText) findViewById(R.id.entrada);
-                salida = (EditText) findViewById(R.id.salida);
+                //progressBar.setVisibility(View.VISIBLE);
+                nombre = findViewById(R.id.nodeName);
+
                 final Gson gson = new Gson();
 
                 JSONObject obj = new JSONObject();
                 try{
-                    obj.put("name", nombre.getText().toString());
-                    obj.put("entrada", entrada.getText().toString());
-                    obj.put("salida", salida.getText().toString());
-                    obj.put("tag",data.getStringExtra("result"));
                     obj.put("administrator", user.getId());
+                    obj.put("name", nombre.getText().toString());
+                    obj.put("tag",data.getStringExtra("result"));
+                    obj.put("shift_starts", mTimeTextView1.getText());
+                    obj.put("shift_ends", mTimeTextView2.getText());
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 RequestQueue queue = Volley.newRequestQueue(this);
                 JsonObjectRequest request = new JsonObjectRequest (Request.Method.POST,
-                        //url de login
+                        //url de nodos
                         "https://laburapp.herokuapp.com/nodes",
                         obj,
                         //1er callback - respuesta
@@ -82,20 +128,19 @@ public class NewNodeActivity extends Activity {
                             @Override
                             public void onResponse(JSONObject response){
                                 Toast.makeText(getApplicationContext(), "Nodo creado correctamente", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
+                                Log.i("nodo creado bien ", response.toString());
+  //                              progressBar.setVisibility(View.GONE);
                             }
                         },
                         //2do callback - error
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                progressBar.setVisibility(View.GONE);
+//                                progressBar.setVisibility(View.GONE);
                             }
                         });
                 queue.add(request);
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //no devolvio nada
+            } else if (resultCode == Activity.RESULT_CANCELED) {
             }
         }
     }

@@ -1,12 +1,10 @@
 package ar.com.sifir.laburapp;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,7 +15,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
@@ -47,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor c = db.rawQuery("Select * from Login", null);
         //si hay algo guardado, lo traigo
-        if (c.moveToFirst() != false){
+        if (c.moveToFirst() ){
             name = (EditText) findViewById(R.id.user);
             passw = (EditText) findViewById(R.id.pass);
             checkbox.setChecked(true);
@@ -60,13 +57,12 @@ public class MainActivity extends AppCompatActivity {
 
     //login
     public void login (View v) {
-
         progressBar.setVisibility(View.VISIBLE);
         //agarro los datos
         name = (EditText) findViewById(R.id.user);
         pass = (EditText) findViewById(R.id.pass);
 
-        //query online
+        //autenticacion usuario
         JSONObject obj = new JSONObject();
         try {
             obj.put("identifier", name.getText().toString());
@@ -74,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e){
             e.printStackTrace();
         }
-
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest request = new JsonObjectRequest (Request.Method.POST,
                 //url de login
@@ -99,9 +94,27 @@ public class MainActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                     }
                 });
-
         queue.add(request);
-        //abro menu
+
+        //cargar los nodos del usuario (query)
+/*        JSONObject obj2 = new JSONObject();
+        JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.GET,
+                //url de nodos
+                "https://laburapp.herokuapp.com/nodes",
+                obj2,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        queue.add(request2);*/
     }
 
     private void moveToMenu () {

@@ -21,6 +21,8 @@ public class MenuActivity extends AppCompatActivity {
     public void fichar (View v){
         Intent intent = new Intent(this, FingerActivity.class);
         startActivity(intent);
+
+        /*va tdo aca, start activity for result 2*/
     }
 
     //admin
