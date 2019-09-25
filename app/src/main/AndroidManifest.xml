@@ -28,9 +28,6 @@
             android:name=".FingerActivity"
             android:label="FingerActivity" />
         <activity
-            android:name=".NFCActivity"
-            android:label="NFCActivity" />
-        <activity
             android:name=".AdminMenuActivity"
             android:label="AdminMenuActivity"/>
         <activity
@@ -40,7 +37,7 @@
             android:name=".AdminNodeListActivity"
             android:label="AdminNodeListActivy"/>
         <activity
-            android:name=".NFCNewNodeActivity"
+            android:name=".ReadNFCActivity"
             android:label="NFCNewNodeActivity">
 
             <intent-filter>
@@ -48,6 +45,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".NodeDetailActivity"
+            android:label="NodeDetailActivity" />
 
     </application>
 

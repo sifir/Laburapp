@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -18,7 +17,8 @@ import com.google.gson.Gson;
 
 import ar.com.sifir.laburapp.adapters.NodeAdapter;
 import ar.com.sifir.laburapp.entities.Node;
-import ar.com.sifir.laburapp.entities.User;
+
+import static ar.com.sifir.laburapp.MainActivity.SERVER_URL;
 
 /**
  * Created by Sifir on 27/11/2017.
@@ -26,11 +26,11 @@ import ar.com.sifir.laburapp.entities.User;
 
 public class AdminNodeListActivity extends Activity {
 
-    String nodeUrl = "https://laburapp.herokuapp.com/nodes?administrator=";
+    String nodeUrl = "/nodes?administrator=";
     String userId;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_node_list);
 
@@ -39,15 +39,15 @@ public class AdminNodeListActivity extends Activity {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor c = db.rawQuery("Select * from Login", null);
 
-        if (c.moveToFirst() ){
-                userId = c.getString(c.getColumnIndex("id"));
+        if (c.moveToFirst()) {
+            userId = c.getString(c.getColumnIndex("id"));
         }
         db.close();
 
         //QUERY CON VOLLEY
         final Gson gson = new Gson();
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest request =new StringRequest(Request.Method.GET, nodeUrl+userId,
+        StringRequest request = new StringRequest(Request.Method.GET, SERVER_URL + nodeUrl + userId,
                 //1er callback - respuesta
                 new Response.Listener<String>() {
                     @Override
@@ -61,10 +61,10 @@ public class AdminNodeListActivity extends Activity {
                         int[] userCounts = new int[nodes.length];
 
                         int i = 0;
-                        for ( Node node : nodes ){
-                            nombres[i] = node.getNombre();
+                        for (Node node : nodes) {
+                            nombres[i] = node.getName();
 
-                            if (userCounts[i] != 0){
+                            if (userCounts[i] != 0) {
                                 userCounts[i] = node.getUserCount();
                             } else {
                                 userCounts[i] = 0;
@@ -74,8 +74,8 @@ public class AdminNodeListActivity extends Activity {
                         }
 
                         //cargo los datos en la lista
-                        NodeAdapter adapter = new NodeAdapter(AdminNodeListActivity.this, R.layout.item_listado_nodes, nombres, userCounts);
-                        ListView nodelist = findViewById(R.id.listadoList);
+                        NodeAdapter adapter = new NodeAdapter(AdminNodeListActivity.this, R.layout.item_listado_nodes, nombres, userCounts, ids);
+                        ListView nodelist = findViewById(R.id.nodeList);
                         Log.i("Adapter: ", adapter.toString());
                         nodelist.setAdapter(adapter);
 
@@ -91,7 +91,6 @@ public class AdminNodeListActivity extends Activity {
                 });
         queue.add(request);
     }
-
 
 
 }

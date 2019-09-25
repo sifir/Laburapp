@@ -23,7 +23,10 @@ import org.json.JSONObject;
 
 import ar.com.sifir.laburapp.entities.User;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
+
+    public static final String SERVER_URL = "https://laburapp.herokuapp.com";
+//    public static final String SERVER_URL = "http://192.168.0.6:1337";
 
     CheckBox checkbox;
     EditText name;
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor c = db.rawQuery("Select * from Login", null);
         //si hay algo guardado, lo traigo
-        if (c.moveToFirst() ){
+        if (c.moveToFirst()) {
             name = (EditText) findViewById(R.id.user);
             passw = (EditText) findViewById(R.id.pass);
             checkbox.setChecked(true);
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //login
-    public void login (View v) {
+    public void login(View v) {
         progressBar.setVisibility(View.VISIBLE);
         //agarro los datos
         name = (EditText) findViewById(R.id.user);
@@ -67,64 +70,42 @@ public class MainActivity extends AppCompatActivity {
         try {
             obj.put("identifier", name.getText().toString());
             obj.put("password", pass.getText().toString());
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest (Request.Method.POST,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
                 //url de login
-                "https://laburapp.herokuapp.com/auth/local",
+                SERVER_URL + "/auth/local",
                 obj,
-                //1er callback - respuesta
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response){
-                        User user = gson.fromJson(response.toString(), User.class);
-                        user.setPassword(pass.getText().toString());
-                        if (checkbox.isChecked())
-                            user.save(getApplicationContext());
-                        moveToMenu();
-                        progressBar.setVisibility(View.GONE);
-                    }
-                },
-                //2do callback - error
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
+                this,
+                this);
         queue.add(request);
-
-        //cargar los nodos del usuario (query)
-/*        JSONObject obj2 = new JSONObject();
-        JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.GET,
-                //url de nodos
-                "https://laburapp.herokuapp.com/nodes",
-                obj2,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-        queue.add(request2);*/
     }
 
-    private void moveToMenu () {
+    private void moveToMenu() {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
 
     //signup
-    public void signup (View v){
+    public void signup(View v) {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        User user = gson.fromJson(response.toString(), User.class);
+        user.setPassword(pass.getText().toString());
+        if (checkbox.isChecked())
+            user.save(getApplicationContext());
+        moveToMenu();
+        progressBar.setVisibility(View.GONE);
     }
 }

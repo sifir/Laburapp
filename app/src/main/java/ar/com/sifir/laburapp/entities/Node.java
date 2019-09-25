@@ -6,15 +6,15 @@ package ar.com.sifir.laburapp.entities;
 
 public class Node {
     private String id;
-    private String nombre;
+    private String name;
     private String tag;
     private String geo;
     private int[] horarios;
     private int administrador;
     private User[] users;
 
-    public Node(String nombre, String tag, String geo, int[] horarios, int administrador, User[] users){
-        this.nombre = nombre;
+    public Node(String name, String tag, String geo, int[] horarios, int administrador, User[] users){
+        this.name = name;
         this.tag = tag;
         this.geo = geo;
         this.horarios = horarios;
@@ -22,7 +22,7 @@ public class Node {
         this.users = users;
     }
 
-    public String getNombre() {return nombre;}
+    public String getName() {return name;}
 
     public String getId() {return id;}
 

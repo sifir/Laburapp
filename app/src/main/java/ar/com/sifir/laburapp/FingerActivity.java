@@ -4,20 +4,43 @@ import android.app.Activity;
 import android.content.Intent;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.multidots.fingerprintauth.AuthErrorCodes;
 import com.multidots.fingerprintauth.FingerPrintAuthCallback;
 import com.multidots.fingerprintauth.FingerPrintAuthHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+
+import ar.com.sifir.laburapp.entities.User;
+
+import static ar.com.sifir.laburapp.MainActivity.SERVER_URL;
 
 /**
  * Created by Sifir on 27/11/2017.
  */
 
 public class FingerActivity extends Activity implements FingerPrintAuthCallback {
+    public static final String TAG = "FingerActivity";
+
+    public static final int REQUEST_CODE = 6;
+
+    public static final int RESULT_OK = -1;
+    public static final int RESULT_ERROR = 1;
+    public static final int RESULT_INVALID_FINGERPRINT = 2;
 
     FingerPrintAuthHelper mFingerPrintAuthHelper;
-    Boolean isIngressValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,25 +80,20 @@ public class FingerActivity extends Activity implements FingerPrintAuthCallback 
 
     @Override
     public void onAuthSuccess(FingerprintManager.CryptoObject cryptoObject) {
-         Toast.makeText(this, "Exito!", Toast.LENGTH_SHORT).show();
-         Intent miIntent = new Intent(this, NFCActivity.class);
-         miIntent.putExtra("isIngressValid", true);
-         startActivity(miIntent);
+        Log.d(TAG, "Lectura de huella: Exito!");
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
     public void onAuthFailed(int errorCode, String errorMessage) {
-        switch (errorCode) {    //Parse the error code for recoverable/non recoverable error.
-            case AuthErrorCodes.CANNOT_RECOGNIZE_ERROR:
-                //Cannot recognize the fingerprint scanned.
-                Toast.makeText(this, "No se puede reconocer la huella escaneada", Toast.LENGTH_SHORT).show();
-                break;
-            case AuthErrorCodes.NON_RECOVERABLE_ERROR:
-                //This is not recoverable error. Try other options for user authentication. like pin, password.
-                break;
-            case AuthErrorCodes.RECOVERABLE_ERROR:
-                //Any recoverable error. Display message to the user.
-                break;
+        //Parse the error code for recoverable/non recoverable error.
+        if (errorCode == AuthErrorCodes.CANNOT_RECOGNIZE_ERROR) {
+            setResult(RESULT_INVALID_FINGERPRINT);
+        } else {
+            setResult(RESULT_ERROR);
         }
+        finish();
     }
+
 }

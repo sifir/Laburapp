@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import ar.com.sifir.laburapp.entities.User;
 
+import static ar.com.sifir.laburapp.MainActivity.SERVER_URL;
+
 /**
  * Created by Sifir on 27/11/2017.
  */
@@ -34,13 +36,13 @@ public class SignupActivity extends Activity {
     ProgressBar progressBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         progressBar = (ProgressBar) findViewById(R.id.progress_signup);
     }
 
-    public void alta (View v){
+    public void alta(View v) {
         progressBar.setVisibility(View.VISIBLE);
         nombre = (EditText) findViewById(R.id.nameText);
         apellido = (EditText) findViewById(R.id.apellidoText);
@@ -49,7 +51,7 @@ public class SignupActivity extends Activity {
         final Gson gson = new Gson();
 
         JSONObject obj = new JSONObject();
-        try{
+        try {
             obj.put("firstName", nombre.getText().toString());
             obj.put("lastName", apellido.getText().toString());
             obj.put("email", email.getText().toString());
@@ -59,14 +61,14 @@ public class SignupActivity extends Activity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest (Request.Method.POST,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
                 //url de login
-                "https://laburapp.herokuapp.com/users",
+                SERVER_URL + "/users",
                 obj,
                 //1er callback - respuesta
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response){
+                    public void onResponse(JSONObject response) {
                         User user = gson.fromJson(response.toString(), User.class);
                         user.setPassword(pass.getText().toString());
                         user.save(getApplicationContext());
@@ -84,7 +86,7 @@ public class SignupActivity extends Activity {
         queue.add(request);
     }
 
-    private void moveToMenu () {
+    private void moveToMenu() {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
