@@ -14,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import ar.com.sifir.laburapp.entities.User;
@@ -63,16 +62,9 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         name = (EditText) findViewById(R.id.user);
         pass = (EditText) findViewById(R.id.pass);
 
-        //autenticacion usuario
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("identifier", name.getText().toString());
-            obj.put("password", pass.getText().toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         httpService.authenticate(
-                obj,
+                name.getText().toString(),
+                pass.getText().toString(),
                 this,
                 this
         );

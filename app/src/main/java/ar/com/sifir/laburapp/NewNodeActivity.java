@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 
+import ar.com.sifir.laburapp.entities.Node;
 import ar.com.sifir.laburapp.entities.User;
 import ar.com.sifir.laburapp.service.HttpService;
 
@@ -105,22 +106,17 @@ public class NewNodeActivity extends Activity {
                 //progressBar.setVisibility(View.VISIBLE);
                 nombre = findViewById(R.id.nodeName);
 
-                final Gson gson = new Gson();
-
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("administrator", user.getId());
-                    obj.put("name", nombre.getText().toString());
-                    obj.put("tag", data.getStringExtra("result"));
-                    // TODO: reemplazar : y agregar ceros faltantes
-                    obj.put("shift_starts", mTimeTextView1.getText());
-                    obj.put("shift_ends", mTimeTextView2.getText());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                httpService.createNode(obj,
+                // TODO: reemplazar : y agregar ceros faltantes
+                httpService.createNode(
+                        new Node(
+                                nombre.getText().toString(),
+                                data.getStringExtra("result"),
+                                null,
+                                mTimeTextView1.getText().toString(),
+                                mTimeTextView2.getText().toString(),
+                                user.getId(),
+                                null
+                        ),
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {

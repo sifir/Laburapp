@@ -52,7 +52,6 @@ public class NodeDetailActivity extends Activity {
                         nombre = node.getName();
                         String geo = "";
                         geo = node.getGeo();
-                        int horarios[] = node.getHorarios();
                         User[] users = node.getUsers();
 
                         //cargo datos

@@ -58,7 +58,13 @@ public class SignupActivity extends Activity {
             e.printStackTrace();
         }
 
-        httpService.createUser(obj,
+        httpService.createUser(
+                new User(
+                        nombre.getText().toString(),
+                        apellido.getText().toString(),
+                        email.getText().toString(),
+                        pass.getText().toString()
+                ),
                 //1er callback - respuesta
                 new Response.Listener<JSONObject>() {
                     @Override

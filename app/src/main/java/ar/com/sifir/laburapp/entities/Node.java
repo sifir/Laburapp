@@ -9,32 +9,54 @@ public class Node {
     private String name;
     private String tag;
     private String geo;
-    private int[] horarios;
-    private int administrador;
+    private String shiftStarts;
+    private String shiftEnds;
+    private String administrador;
     private User[] users;
 
-    public Node(String name, String tag, String geo, int[] horarios, int administrador, User[] users){
+    public Node(String name, String tag, String geo, String shiftStarts, String shiftEnds, String administrador, User[] users) {
         this.name = name;
         this.tag = tag;
         this.geo = geo;
-        this.horarios = horarios;
+        this.shiftStarts = shiftStarts;
+        this.shiftEnds = shiftEnds;
         this.administrador = administrador;
         this.users = users;
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
-    public String getId() {return id;}
+    public String getId() {
+        return id;
+    }
 
-    public String getTag() {return tag;}
+    public String getTag() {
+        return tag;
+    }
 
-    public String getGeo() {return geo;}
+    public String getGeo() {
+        return geo;
+    }
 
-    public int[] getHorarios() {return horarios;}
+    public String getAdministrador() {
+        return administrador;
+    }
 
-    public int getAdministrador() {return administrador;}
+    public User[] getUsers() {
+        return users;
+    }
 
-    public User[] getUsers(){return  users;}
+    public int getUserCount() {
+        return users.length;
+    }
 
-    public int getUserCount() {return  users.length;}
+    public String getShiftStarts() {
+        return shiftStarts;
+    }
+
+    public String getShiftEnds() {
+        return shiftEnds;
+    }
 }

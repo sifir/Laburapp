@@ -7,7 +7,6 @@ import com.android.volley.Response;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import ar.com.sifir.laburapp.FingerActivity;
@@ -79,19 +78,11 @@ public class StampService {
     }
 
     private void makeStamp() {
-        final Gson gson = new Gson();
         //cargo el usuario
         User user = new User();
         user.load(context);
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("user", user.getId());
-            obj.put("tag", this.tag);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        httpService.stamp(obj, this.stampSuccess, this.stampError);
+        httpService.stamp(user.getId(), this.tag, this.stampSuccess, this.stampError);
 
         this.tag = null;
     }

@@ -28,6 +28,13 @@ public class User {
         this.password = password;
     }
 
+    public User(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
     public void save(Context ctx) {
         //guardo el login offline
             DBhelper helper = new DBhelper(ctx, "Login", null, 1);
