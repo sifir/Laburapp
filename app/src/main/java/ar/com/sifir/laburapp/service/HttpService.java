@@ -89,8 +89,8 @@ public class HttpService {
             body.put("administrator", node.getAdministrador());
             body.put("name", node.getName());
             body.put("tag", node.getTag());
-            body.put("shift_starts", node.getShiftStarts());
-            body.put("shift_ends", node.getShiftEnds());
+            body.put("shift_starts", Integer.valueOf(node.getShiftStarts()));
+            body.put("shift_ends", Integer.valueOf(node.getShiftEnds()));
 
         } catch (JSONException e) {
             e.printStackTrace();

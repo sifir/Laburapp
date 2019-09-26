@@ -16,12 +16,11 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import ar.com.sifir.laburapp.entities.Node;
 import ar.com.sifir.laburapp.entities.User;
@@ -31,7 +30,7 @@ import ar.com.sifir.laburapp.service.HttpService;
  * Created by Sifir on 27/11/2017.
  */
 
-public class NewNodeActivity extends Activity {
+public class NewNodeActivity extends Activity implements View.OnClickListener {
 
     private HttpService httpService;
 
@@ -55,41 +54,18 @@ public class NewNodeActivity extends Activity {
         mTimeTextView1 = findViewById(R.id.timeTextView1);
         mTimeTextView2 = findViewById(R.id.timeTextView2);
 
-        Calendar calendar = Calendar.getInstance();
-        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        final int minute = calendar.get(Calendar.MINUTE);
-
         mPickTimeButton1 = findViewById(R.id.pickTimeButton1);
         mPickTimeButton2 = findViewById(R.id.pickTimeButton2);
 
-        mPickTimeButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                        mTimeTextView1.setText(i + ":" + i1);
-                    }
-                }, hour, minute, android.text.format.DateFormat.is24HourFormat(mContext));
-                timePickerDialog.show();
-            }
-        });
-
-        mPickTimeButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                        mTimeTextView2.setText(i + ":" + i1);
-                    }
-                }, hour, minute, android.text.format.DateFormat.is24HourFormat(mContext));
-                timePickerDialog.show();
-            }
-        });
+        mPickTimeButton1.setOnClickListener(this);
+        mPickTimeButton2.setOnClickListener(this);
 
         user = new User();
         user.load(this);
+    }
+
+    private String formatZeroes(int hours, int minutes) {
+        return String.format(Locale.getDefault(), "%02d:%02d", hours, minutes);
     }
 
     public void aceptarBtn(View v) {
@@ -106,14 +82,13 @@ public class NewNodeActivity extends Activity {
                 //progressBar.setVisibility(View.VISIBLE);
                 nombre = findViewById(R.id.nodeName);
 
-                // TODO: reemplazar : y agregar ceros faltantes
                 httpService.createNode(
                         new Node(
                                 nombre.getText().toString(),
                                 data.getStringExtra("result"),
                                 null,
-                                mTimeTextView1.getText().toString(),
-                                mTimeTextView2.getText().toString(),
+                                mTimeTextView1.getText().toString().replace(":", ""),
+                                mTimeTextView2.getText().toString().replace(":", ""),
                                 user.getId(),
                                 null
                         ),
@@ -137,4 +112,21 @@ public class NewNodeActivity extends Activity {
         }
     }
 
+    @Override
+    public void onClick(final View v) {
+        Calendar calendar = Calendar.getInstance();
+        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hours, int minutes) {
+                if (v.getId() == mPickTimeButton1.getId())
+                    mTimeTextView1.setText(formatZeroes(hours, minutes));
+                else if (v.getId() == mPickTimeButton2.getId())
+                    mTimeTextView2.setText(formatZeroes(hours, minutes));
+            }
+        }, hour, minute, android.text.format.DateFormat.is24HourFormat(mContext));
+        timePickerDialog.show();
+    }
 }
