@@ -14,12 +14,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -28,14 +24,16 @@ import org.json.JSONObject;
 import java.util.Calendar;
 
 import ar.com.sifir.laburapp.entities.User;
-
-import static ar.com.sifir.laburapp.MainActivity.SERVER_URL;
+import ar.com.sifir.laburapp.service.HttpService;
 
 /**
  * Created by Sifir on 27/11/2017.
  */
 
 public class NewNodeActivity extends Activity {
+
+    private HttpService httpService;
+
     TextView mTimeTextView1;
     TextView mTimeTextView2;
     Button mPickTimeButton1;
@@ -50,6 +48,7 @@ public class NewNodeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_node);
+        httpService = ((MyApplication) getApplication()).httpService;
         //progressBar = (ProgressBar) findViewById(R.id.progress_newnode);
 
         mTimeTextView1 = findViewById(R.id.timeTextView1);
@@ -121,12 +120,7 @@ public class NewNodeActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                RequestQueue queue = Volley.newRequestQueue(this);
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                        //url de nodos
-                        SERVER_URL + "/nodes",
-                        obj,
-                        //1er callback - respuesta
+                httpService.createNode(obj,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -143,7 +137,6 @@ public class NewNodeActivity extends Activity {
 //                                progressBar.setVisibility(View.GONE);
                             }
                         });
-                queue.add(request);
             }
         }
     }

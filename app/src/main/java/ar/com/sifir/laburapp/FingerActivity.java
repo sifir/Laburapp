@@ -1,31 +1,14 @@
 package ar.com.sifir.laburapp;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.multidots.fingerprintauth.AuthErrorCodes;
 import com.multidots.fingerprintauth.FingerPrintAuthCallback;
 import com.multidots.fingerprintauth.FingerPrintAuthHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-
-import ar.com.sifir.laburapp.entities.User;
-
-import static ar.com.sifir.laburapp.MainActivity.SERVER_URL;
 
 /**
  * Created by Sifir on 27/11/2017.

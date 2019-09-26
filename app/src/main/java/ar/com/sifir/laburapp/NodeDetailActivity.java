@@ -7,21 +7,19 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import ar.com.sifir.laburapp.entities.Node;
 import ar.com.sifir.laburapp.entities.User;
+import ar.com.sifir.laburapp.service.HttpService;
 
-import static ar.com.sifir.laburapp.MainActivity.SERVER_URL;
 
 public class NodeDetailActivity extends Activity {
-    String nodeDetailUrl = "/nodes?id=";
+
+    private HttpService httpService;
+
     String nodeID;
     TextView name;
     EditText geo;
@@ -33,15 +31,17 @@ public class NodeDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_node_detail);
-        name =  findViewById(R.id.nodeTitleTxt);
+        httpService = ((MyApplication) getApplication()).httpService;
+        name = findViewById(R.id.nodeTitleTxt);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         nodeID = bundle.getString("ID");
 
         //QUERY CON VOLLEY
         final Gson gson = new Gson();
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.GET, SERVER_URL + nodeDetailUrl + nodeID,
+
+        httpService.nodeById(
+                nodeID,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -67,7 +67,7 @@ public class NodeDetailActivity extends Activity {
                         //si falla
                         Log.i("Error:", error.toString());
                     }
-                });
-        queue.add(request);
+                }
+        );
     }
 }

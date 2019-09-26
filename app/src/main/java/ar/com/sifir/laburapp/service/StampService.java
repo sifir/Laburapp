@@ -3,11 +3,7 @@ package ar.com.sifir.laburapp.service;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.Nullable;
@@ -18,11 +14,10 @@ import ar.com.sifir.laburapp.FingerActivity;
 import ar.com.sifir.laburapp.ReadNFCActivity;
 import ar.com.sifir.laburapp.entities.User;
 
-import static ar.com.sifir.laburapp.MainActivity.SERVER_URL;
-
 public class StampService {
 
     private final Activity context;
+    private final HttpService httpService;
     private final Response.Listener<JSONObject> stampSuccess;
     private final Response.ErrorListener stampError;
 
@@ -33,8 +28,9 @@ public class StampService {
     private int step = STEP_READ_NFC;
     private String tag;
 
-    public StampService(Activity context, Response.Listener<JSONObject> stampSuccess, Response.ErrorListener stampError) {
+    public StampService(Activity context, HttpService httpService, Response.Listener<JSONObject> stampSuccess, Response.ErrorListener stampError) {
         this.context = context;
+        this.httpService = httpService;
         this.stampSuccess = stampSuccess;
         this.stampError = stampError;
     }
@@ -95,16 +91,8 @@ public class StampService {
             e.printStackTrace();
         }
 
-        RequestQueue queue = Volley.newRequestQueue(context);
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
-                //url de login
-                SERVER_URL + "/stamps",
-                obj,
-                this.stampSuccess,
-                this.stampError
-        );
-        queue.add(request);
+        httpService.stamp(obj, this.stampSuccess, this.stampError);
+
         this.tag = null;
     }
 }

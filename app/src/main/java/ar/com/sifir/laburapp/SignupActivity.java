@@ -3,31 +3,27 @@ package ar.com.sifir.laburapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import ar.com.sifir.laburapp.entities.User;
-
-import static ar.com.sifir.laburapp.MainActivity.SERVER_URL;
+import ar.com.sifir.laburapp.service.HttpService;
 
 /**
  * Created by Sifir on 27/11/2017.
  */
 
 public class SignupActivity extends Activity {
+
+    private HttpService httpService;
 
     EditText nombre;
     EditText apellido;
@@ -39,6 +35,8 @@ public class SignupActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        httpService = ((MyApplication) getApplication()).httpService;
+
         progressBar = (ProgressBar) findViewById(R.id.progress_signup);
     }
 
@@ -60,11 +58,7 @@ public class SignupActivity extends Activity {
             e.printStackTrace();
         }
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                //url de login
-                SERVER_URL + "/users",
-                obj,
+        httpService.createUser(obj,
                 //1er callback - respuesta
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -83,7 +77,7 @@ public class SignupActivity extends Activity {
                         progressBar.setVisibility(View.GONE);
                     }
                 });
-        queue.add(request);
+
     }
 
     private void moveToMenu() {

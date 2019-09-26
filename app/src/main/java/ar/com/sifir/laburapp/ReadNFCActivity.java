@@ -1,10 +1,8 @@
 package ar.com.sifir.laburapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import be.appfoundry.nfclibrary.activities.NfcActivity;
 

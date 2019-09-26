@@ -15,9 +15,9 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 
 import ar.com.sifir.laburapp.entities.Stamp;
+import ar.com.sifir.laburapp.service.HttpService;
 import ar.com.sifir.laburapp.service.StampService;
 
 /**
@@ -26,6 +26,7 @@ import ar.com.sifir.laburapp.service.StampService;
 
 public class MenuActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
+    private HttpService httpService;
     public static final String TAG = "MenuActivity";
 
     private StampService stampService;
@@ -34,7 +35,8 @@ public class MenuActivity extends AppCompatActivity implements Response.Listener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        stampService = new StampService(this, this, this);
+        httpService = ((MyApplication) getApplication()).httpService;
+        stampService = new StampService(this, httpService, this, this);
         // TODO: cargar lista de shifts
     }
 

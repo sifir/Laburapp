@@ -10,23 +10,20 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import ar.com.sifir.laburapp.entities.User;
+import ar.com.sifir.laburapp.helper.DBhelper;
+import ar.com.sifir.laburapp.service.HttpService;
 
 public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
-    public static final String SERVER_URL = "https://laburapp.herokuapp.com";
-//    public static final String SERVER_URL = "http://192.168.0.6:1337";
+    private HttpService httpService;
 
     CheckBox checkbox;
     EditText name;
@@ -39,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        httpService = ((MyApplication) getApplication()).httpService;
 
         checkbox = (CheckBox) findViewById(R.id.remember);
         progressBar = (ProgressBar) findViewById(R.id.progress_main);
@@ -73,14 +71,11 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                //url de login
-                SERVER_URL + "/auth/local",
+        httpService.authenticate(
                 obj,
                 this,
-                this);
-        queue.add(request);
+                this
+        );
     }
 
     private void moveToMenu() {

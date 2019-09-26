@@ -4,11 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.CheckBox;
-import android.widget.EditText;
 
-import ar.com.sifir.laburapp.DBhelper;
-import ar.com.sifir.laburapp.R;
+import ar.com.sifir.laburapp.helper.DBhelper;
 
 /**
  * Created by Sifir on 27/11/2017.
