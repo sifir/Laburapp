@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/progress_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <ar.com.sifir.laburapp.widget.SimpleFormEditText
+        android:id="@+id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textPersonName" />
+
+    <ar.com.sifir.laburapp.widget.SimpleFormEditText
+        android:id="@+id/apellidoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameText"
+        android:layout_alignStart="@+id/nameText"
+        android:layout_alignLeft="@+id/nameText"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:hint="@string/lastName"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:onClick="alta"
+        android:text="@string/newUser" />
+
+    <ar.com.sifir.laburapp.widget.SimpleFormEditText
+        android:id="@+id/emailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/apellidoText"
+        android:layout_alignStart="@+id/apellidoText"
+        android:layout_alignLeft="@+id/apellidoText"
+        android:layout_marginTop="41dp"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress" />
+
+    <ar.com.sifir.laburapp.widget.SimpleFormEditText
+        android:id="@+id/passText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emailText"
+        android:layout_alignStart="@+id/emailText"
+        android:layout_alignLeft="@+id/emailText"
+        android:layout_marginTop="35dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword" />
+</RelativeLayout>
