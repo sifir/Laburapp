@@ -8,33 +8,6 @@
     tools:context=".NodeDetailActivity">
 
     <TextView
-        android:id="@+id/nodeHorarioTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="HORARIO"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
-        app:layout_constraintStart_toEndOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/nodeTitleTxt" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/schedule"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nodeTitleTxt" />
-
-    <TextView
         android:id="@+id/nodeTitleTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,15 +37,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="@string/users"
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nodeHorarioTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/nodeTitleTxt" />
 
     <Button
         android:id="@+id/addUserBtn"

@@ -26,17 +26,6 @@ public class ReadNFCActivity extends NfcActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
         setTitle("Lector NFC");
-
-        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent();
-                i.putExtra("result", "4F-69-36-87");
-                setResult(RESULT_OK, i);
-                finish();
-            }
-        });
-
     }
 
 

@@ -35,13 +35,6 @@ public class FingerActivity extends AppCompatActivity implements FingerPrintAuth
 
         //USAR FINGERPRINT
         mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(this, this);
-
-        findViewById(R.id.btn_fich).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAuthSuccess(null);
-            }
-        });
     }
 
     @Override

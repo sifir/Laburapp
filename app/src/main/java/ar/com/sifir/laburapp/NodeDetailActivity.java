@@ -30,9 +30,6 @@ public class NodeDetailActivity extends BaseActivity implements InviteDialogFrag
     String nodeID;
     TextView name;
     Context ctx = this;
-    TextView schedule;
-
-    //https://laburapp.herokuapp.com/nodes?id=5d7eb9c42a12237a0c1335da
     Node node = null;
 
     @Override
@@ -42,7 +39,6 @@ public class NodeDetailActivity extends BaseActivity implements InviteDialogFrag
         setTitle("Detalle de Nodo");
 
         name = (TextView) findViewById(R.id.nodeTitleTxt);
-        schedule = (TextView) findViewById(R.id.nodeHorarioTxt);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         nodeID = bundle.getString("ID");
@@ -65,13 +61,10 @@ public class NodeDetailActivity extends BaseActivity implements InviteDialogFrag
                         node = getGson().fromJson(response, Node.class);
                         Log.i("exito:", response);
 
-                        String nombre = "";
+                        String nombre;
                         nombre = node.getName();
-                        String horario = "";
-                        horario = node.getShiftStarts() + " : " + node.getShiftEnds();
                         User[] users = node.getUsers();
                         name.setText(nombre);
-                        schedule.setText(horario);
                         UserAdapter adapter = new UserAdapter(NodeDetailActivity.this, R.layout.item_listado_users, users, nodeID);
                         ListView nodelist = (ListView) findViewById(R.id.usersList);
                         Log.i("Adapter: ", adapter.toString());

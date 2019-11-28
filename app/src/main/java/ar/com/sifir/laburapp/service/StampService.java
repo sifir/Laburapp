@@ -60,12 +60,12 @@ public class StampService {
                 step = STEP_READ_FINGER;
                 break;
             case STEP_READ_FINGER:
-                readFingerPrint();
                 step = STEP_GPS;
+                readFingerPrint();
                 break;
             case STEP_GPS:
-                readGps();
                 step = STEP_STAMP;
+                readGps();
                 break;
             case STEP_STAMP:
                 makeStamp();
@@ -80,25 +80,27 @@ public class StampService {
     }
 
     private void readFingerPrint() {
-        if (node == null || !node.isFingerEnabled())
+        if (node == null || !node.isFingerEnabled()){
             next();
+        } else {
+            Intent intent = new Intent(context, FingerActivity.class);
+            context.startActivityForResult(intent, FingerActivity.REQUEST_CODE);
+        }
 
-        Intent intent = new Intent(context, FingerActivity.class);
-        context.startActivityForResult(intent, FingerActivity.REQUEST_CODE);
     }
 
     private void readGps() {
-        if (node == null || !node.isGPSenabled())
+        if (node == null || !node.isGPSenabled()){
             next();
-
-        Intent intent = new Intent(context, LocationActivity.class);
-        context.startActivityForResult(intent, LocationActivity.REQUEST_CODE);
+        } else {
+            Intent intent = new Intent(context, LocationActivity.class);
+            context.startActivityForResult(intent, LocationActivity.REQUEST_CODE);
+        }
     }
 
     private void makeStamp() {
         //cargo el usuario
         context.getHttpService().stamp(context.getUser(), this.node, this.stampSuccess, this.stampError);
-
         this.node = null;
     }
 }

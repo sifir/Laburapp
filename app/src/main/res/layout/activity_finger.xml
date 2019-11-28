@@ -26,14 +26,4 @@
         tools:layout_editor_absoluteX="21dp"
         tools:layout_editor_absoluteY="430dp" />
 
-    <Button
-        android:id="@+id/btn_fich"
-        style="@android:style/Widget.Material.Button.Borderless.Colored"
-        android:layout_marginTop="36dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:text="fitch" />
-
 </RelativeLayout>
